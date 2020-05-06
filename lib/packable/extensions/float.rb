@@ -15,7 +15,7 @@ module Packable
       end
 
       def write_packed(io, options)
-        io << pack(self.class.pack_option_to_format(options))
+        io.write_without_packing(pack(self.class.pack_option_to_format(options)))
       end
 
       module ClassMethods #:nodoc:

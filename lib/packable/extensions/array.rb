@@ -19,14 +19,14 @@ module Packable
       end
 
       def write_packed(io, *how)
-        return io << self.original_pack(*how) if how.first.is_a? String
+        return io.write(self.original_pack(*how)) if how.first.is_a? String
         how = [:repeat => :all] if how.empty?
         current = -1
-        how.each do |options|
+        how.inject(0) do |sum,options|
           repeat = options.is_a?(Hash) ? options.delete(:repeat) || 1 : 1
           repeat = length - 1 - current if repeat == :all
-          repeat.times do
-            io.write(self[current+=1],options)
+          sum + (0..repeat).inject(0) do |sum|
+            sum + io.write(self[current+=1],options)
           end
         end
       end

@@ -29,7 +29,7 @@ module Packable
           byte.chr
         end
         chars.reverse! unless NEEDS_REVERSAL[options[:endian]]
-        io << chars.join
+        io.write_without_packing(chars.join)
       end
 
       module ClassMethods #:nodoc:
